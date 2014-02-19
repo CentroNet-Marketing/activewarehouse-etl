@@ -36,7 +36,10 @@ module ETL #:nodoc:
           #puts "configurations in init: #{ActiveRecord::Base.configurations.inspect}"
           
           require 'etl/execution'
-          ETL::Execution::Base.establish_connection :etl_execution
+
+          ETL::Execution::Base.establish_connection ETL::Base.configurations[:etl_execution]
+          ActiveRecord::Base.establish_connection ETL::Base.configurations[:etl_execution]
+          
           ETL::Execution::Execution.migrate
 
           @initialized = true
